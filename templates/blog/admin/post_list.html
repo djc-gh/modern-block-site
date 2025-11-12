@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Posts{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-900">📋 Manage Posts</h1>
+        <a href="{% url 'blog:admin-post-create' %}" class="btn-primary">➕ Create New Post</a>
+    </div>
+
+    {% if posts %}
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden card">
+        <table class="w-full">
+            <thead class="bg-gray-100 border-b-2 border-[#54C4C7]">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Title</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Category</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Author</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr class="border-b border-gray-200 hover:bg-[#efeadd] transition-colors">
+                    <td class="px-6 py-4">
+                        <p class="font-semibold text-gray-900">{{ post.title }}</p>
+                        <p class="text-xs text-gray-500">{{ post.excerpt|truncatewords:10 }}</p>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="badge badge-primary">{{ post.category.name }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-700">{{ post.author.username }}</td>
+                    <td class="px-6 py-4">
+                        <span class="badge {% if post.status == 'published' %}bg-green-100 text-green-700{% else %}bg-yellow-100 text-yellow-700{% endif %}">
+                            {{ post.get_status_display }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ post.created_at|date:"M d, Y" }}</td>
+                    <td class="px-6 py-4 flex gap-2">
+                        <a href="{{ post.get_absolute_url }}" class="text-blue-600 hover:underline text-sm">👁 View</a>
+                        <a href="{% url 'blog:admin-post-edit' post.id %}" class="text-[#54C4C7] hover:underline text-sm">✏️ Edit</a>
+                        <a href="{% url 'blog:admin-post-delete' post.id %}" class="text-red-600 hover:underline text-sm">🗑️ Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center gap-4 mt-8">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="px-4 py-2 btn-secondary">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 btn-secondary">Previous</a>
+        {% endif %}
+
+        <span class="text-sm text-gray-600">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 btn-secondary">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 btn-secondary">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="bg-[#efeadd] p-12 rounded-lg text-center">
+        <p class="text-lg text-gray-600 mb-4">No posts yet</p>
+        <a href="{% url 'blog:admin-post-create' %}" class="btn-primary">Create Your First Post</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

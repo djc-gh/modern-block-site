@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block meta_description %}{{ post.excerpt }}{% endblock %}
+
+{% block content %}
+<article class="bg-white">
+    <!-- Hero Section -->
+    {% if post.featured_image %}
+    <div class="relative w-full h-96 md:h-[500px] overflow-hidden">
+        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+    {% else %}
+    <div class="relative w-full h-96 md:h-[500px] bg-gradient-to-br from-[#54C4C7] to-[#2d8f92]"></div>
+    {% endif %}
+</article>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Post Header -->
+    <div class="mb-8 animate-fade-in-up">
+        <div class="flex gap-3 mb-4 flex-wrap">
+            <a href="{% url 'blog:category-posts' post.category.slug %}" class="badge badge-primary">
+                {{ post.category.name }}
+            </a>
+            <span class="badge badge-gray">{{ post.reading_time }} min read</span>
+            <span class="badge badge-gray">{{ post.published_at|date:"M d, Y" }}</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{{ post.title }}</h1>
+        
+        <!-- Author Info -->
+        <div class="flex items-center gap-4 py-6 border-y border-gray-200">
+            <div>
+                <p class="font-semibold text-gray-900">By {{ post.author.get_full_name|default:post.author.username }}</p>
+                <p class="text-sm text-gray-500">{{ post.created_at|date:"F d, Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Content -->
+    <div class="prose prose-lg max-w-none mb-12 text-gray-800 animate-fade-in-up">
+        {{ post.content|linebreaks }}
+    </div>
+
+    <!-- Share & Reaction Bar -->
+    <div class="bg-[#efeadd] p-8 rounded-lg mb-12 animate-fade-in-up">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <!-- Reactions -->
+            <div class="flex items-center gap-4">
+                <span class="font-semibold text-gray-900">How did this help?</span>
+                <div class="flex gap-2">
+                    {% for reaction in reactions %}
+                    <button 
+                        class="reaction-btn px-4 py-2 bg-white rounded-lg border-2 border-gray-300 hover:border-[#54C4C7] transition-all transform hover:scale-110"
+                        data-reaction="{{ reaction.value }}"
+                        data-post-id="{{ post.id }}"
+                    >
+                        {{ reaction.emoji }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="flex items-center gap-4">
+                <span class="font-semibold text-gray-900">Share</span>
+                <!-- Twitter -->
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" class="p-2 bg-white rounded-lg border-2 border-gray-300 hover:border-[#1DA1F2] hover:bg-[#1DA1F2]/5 transition-colors" title="Share on Twitter">
+                    <svg class="w-5 h-5 text-[#1DA1F2]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7"/>
+                    </svg>
+                </a>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="p-2 bg-white rounded-lg border-2 border-gray-300 hover:border-[#1877F2] hover:bg-[#1877F2]/5 transition-colors" title="Share on Facebook">
+                    <svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 2h-3a6 6 0 00-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a1 1 0 011-1h3z"/>
+                    </svg>
+                </a>
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="p-2 bg-white rounded-lg border-2 border-gray-300 hover:border-[#0A66C2] hover:bg-[#0A66C2]/5 transition-colors" title="Share on LinkedIn">
+                    <svg class="w-5 h-5 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </a>
+                <!-- Copy Link -->
+                <button onclick="copyToClipboard('{{ request.build_absolute_uri }}')" class="p-2 bg-white rounded-lg border-2 border-gray-300 hover:border-[#54C4C7] hover:bg-[#54C4C7]/5 transition-colors" title="Copy link to clipboard">
+                    <svg class="w-5 h-5 text-[#54C4C7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mb-12">
+        <h2 class="text-3xl font-bold mb-8 text-gray-900">💬 Comments ({{ comments.count }})</h2>
+
+        {% if user.is_authenticated %}
+        <!-- Add Comment Form -->
+        <div class="bg-white p-8 rounded-lg shadow-md mb-8 card animate-fade-in-up">
+            <h3 class="text-xl font-bold mb-4">Share your thoughts</h3>
+            <form id="comment-form" method="post" action="{% url 'blog:add-comment' %}">
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <textarea 
+                    name="content" 
+                    placeholder="Write your comment here..."
+                    class="input-field mb-4"
+                    rows="4"
+                    required
+                ></textarea>
+                <button type="submit" class="btn-primary">Post Comment</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="bg-[#efeadd] p-8 rounded-lg mb-8 text-center">
+            <p class="text-gray-700 mb-4">Please <a href="{% url 'accounts:login' %}" class="text-[#54C4C7] font-semibold hover:underline">login</a> to comment</p>
+        </div>
+        {% endif %}
+
+        <!-- Comments List -->
+        <div class="space-y-6">
+            {% for comment in comments %}
+            <div class="bg-white p-6 rounded-lg border border-gray-200 animate-fade-in-up card">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <p class="font-semibold text-gray-900">{{ comment.author.get_full_name|default:comment.author.username }}</p>
+                        <p class="text-sm text-gray-500">{{ comment.created_at|timesince }} ago</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 leading-relaxed">{{ comment.content|linebreaks }}</p>
+            </div>
+            {% empty %}
+            <div class="text-center py-12 text-gray-500">
+                <p class="text-lg">No comments yet. Be the first to comment!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Related Posts -->
+    {% if related_posts %}
+    <div class="border-t-2 border-gray-200 pt-12">
+        <h2 class="text-3xl font-bold mb-8 text-gray-900">📚 Related Posts</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for related in related_posts %}
+            <div class="card card-hover animate-fade-in-up">
+                <div class="relative overflow-hidden h-48">
+                    {% if related.featured_image %}
+                        <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                    {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-[#54C4C7] to-[#2d8f92]"></div>
+                    {% endif %}
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2 hover:text-[#54C4C7] transition-colors">
+                        <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ related.excerpt }}</p>
+                    <a href="{{ related.get_absolute_url }}" class="text-[#54C4C7] font-semibold hover:text-[#2d8f92]">Read More →</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Link copied to clipboard!');
+    });
+}
+
+// Reaction handling
+document.querySelectorAll('.reaction-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const reactionType = this.dataset.reaction;
+        const postId = this.dataset.postId;
+        
+        {% if user.is_authenticated %}
+        fetch('{% url "blog:add-reaction" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                post_id: postId,
+                reaction_type: reactionType
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                this.classList.add('border-[#54C4C7]', 'bg-[#54C4C7]/10');
+                this.classList.remove('border-gray-300');
+            }
+        });
+        {% else %}
+        window.location.href = '{% url "accounts:login" %}';
+        {% endif %}
+    });
+});
+
+// Comment form handling
+document.getElementById('comment-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    
+    fetch('{% url "blog:add-comment" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('❌ Error posting comment');
+        }
+    });
+});
+</script>
+{% endblock %}

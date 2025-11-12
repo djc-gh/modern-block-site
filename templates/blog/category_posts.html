@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Posts{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-[#54C4C7] to-[#2d8f92] text-white py-12 md:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ category.name }}</h1>
+        {% if category.description %}
+        <p class="text-lg md:text-xl text-white/90">{{ category.description }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {% if posts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {% for post in posts %}
+        <div class="card card-hover animate-fade-in-up">
+            <div class="relative overflow-hidden h-48">
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-[#54C4C7] to-[#2d8f92]"></div>
+                {% endif %}
+            </div>
+            <div class="p-6">
+                <div class="flex gap-2 mb-3 flex-wrap">
+                    <span class="badge badge-gray">{{ post.reading_time }} min read</span>
+                    <span class="badge badge-gray">{{ post.published_at|date:"M d" }}</span>
+                </div>
+                <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
+                    <a href="{{ post.get_absolute_url }}" class="hover:text-[#54C4C7] transition-colors">{{ post.title }}</a>
+                </h3>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ post.excerpt }}</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-gray-500">by {{ post.author.username }}</span>
+                    <a href="{{ post.get_absolute_url }}" class="text-[#54C4C7] font-semibold hover:text-[#2d8f92]">→</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center gap-4 mt-12">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="px-4 py-2 btn-secondary">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 btn-secondary">Previous</a>
+        {% endif %}
+
+        <span class="text-sm text-gray-600">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 btn-secondary">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 btn-secondary">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="text-center py-12">
+        <h3 class="text-2xl font-bold text-gray-600 mb-4">No posts in this category yet</h3>
+        <a href="{% url 'blog:post-list' %}" class="btn-primary">← View All Posts</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

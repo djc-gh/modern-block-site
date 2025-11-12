@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog - All Posts{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Clean Modern Design with Better Contrast -->
+<div class="relative bg-gradient-to-br from-[#54C4C7] via-[#3da8ab] to-[#2d8f92] text-white overflow-hidden" style="min-height: 500px;">
+    <!-- Animated Background Pattern -->
+    <div class="absolute inset-0 z-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <!-- Floating Shapes -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div class="text-center space-y-6 animate-fade-in-up">
+            <!-- Main Heading -->
+            <div class="space-y-4">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight" style="text-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <span class="block text-white mb-2">Discover</span>
+                    <span class="block text-white">Amazing Stories</span>
+                </h1>
+                <div class="flex items-center justify-center gap-3 py-2">
+                    <div class="h-1.5 w-24 bg-white/70 rounded-full"></div>
+                    <div class="h-1.5 w-12 bg-white/50 rounded-full"></div>
+                </div>
+            </div>
+            
+            <!-- Subtitle -->
+            <p class="text-base md:text-lg lg:text-xl text-white/95 max-w-3xl mx-auto font-normal leading-relaxed" style="text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                Explore insightful articles, expert tips, and inspiring posts crafted just for you
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+                <a href="#posts" class="group relative inline-flex items-center gap-2 bg-white text-[#54C4C7] hover:bg-white/95 px-6 py-3 text-base font-bold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                    <span>Start Reading</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+                <a href="{% url 'accounts:register' %}" class="group inline-flex items-center gap-2 px-6 py-3 text-base font-bold border-2 border-white text-white rounded-xl hover:bg-white hover:text-[#54C4C7] backdrop-blur-sm bg-white/10 shadow-lg transition-all duration-300">
+                    <span>Join Community</span>
+                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Stats Preview -->
+            <div class="flex flex-wrap justify-center gap-8 pt-8 text-white">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-1" style="text-shadow: 0 2px 8px rgba(0,0,0,0.15);">{{ total_posts|default:"0" }}</div>
+                    <div class="text-xs md:text-sm font-semibold uppercase tracking-widest opacity-90">Articles</div>
+                </div>
+                <div class="w-px h-16 bg-white/30"></div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-1" style="text-shadow: 0 2px 8px rgba(0,0,0,0.15);">{{ categories.count|default:"0" }}</div>
+                    <div class="text-xs md:text-sm font-semibold uppercase tracking-widest opacity-90">Categories</div>
+                </div>
+                <div class="w-px h-16 bg-white/30"></div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-1" style="text-shadow: 0 2px 8px rgba(0,0,0,0.15);">1000+</div>
+                    <div class="text-xs md:text-sm font-semibold uppercase tracking-widest opacity-90">Readers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Divider -->
+    <div class="absolute bottom-0 left-0 right-0 z-20">
+        <svg class="w-full h-16 md:h-24" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" 
+                  fill="#efeadd"/>
+        </svg>
+    </div>
+</div>
+
+<div id="posts" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <!-- Featured Posts Section -->
+    {% if featured_posts %}
+    <div class="mb-16">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-[#54C4C7] to-[#2d8f92] rounded-full text-white font-bold mb-4 shadow-lg text-sm">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <span>Featured Articles</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-3">
+                Editor's Picks
+            </h2>
+            <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+                Handpicked articles that you shouldn't miss
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {% for post in featured_posts %}
+            <article class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500 relative">
+                <!-- Featured Badge -->
+                <div class="absolute top-4 left-4 z-20">
+                    <span class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold px-3 py-1.5 rounded-full shadow-lg text-xs">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        Featured
+                    </span>
+                </div>
+                
+                <div class="relative overflow-hidden h-56">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-[#54C4C7] via-[#3da8ab] to-[#2d8f92] relative flex items-center justify-center">
+                            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 30px 30px;"></div>
+                            <svg class="w-20 h-20 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex gap-2 mb-3 flex-wrap items-center">
+                        <span class="badge badge-primary text-xs font-bold px-3 py-1">{{ post.category.name }}</span>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {{ post.reading_time }} min
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 line-clamp-2 group-hover:text-[#54C4C7] transition-colors leading-tight">
+                        <a href="{{ post.get_absolute_url }}" class="hover:underline">{{ post.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ post.excerpt|default:"Discover more by reading this featured article..." }}</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <span class="text-xs text-gray-500">{{ post.published_at|date:"M d, Y" }}</span>
+                        <a href="{{ post.get_absolute_url }}" class="inline-flex items-center gap-1 text-[#54C4C7] font-bold hover:text-[#2d8f92] hover:gap-2 transition-all text-sm">
+                            Read More
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="flex justify-center items-center gap-2 mt-10 flex-wrap">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="px-4 py-2 btn-secondary font-bold rounded-lg text-sm">« First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="px-4 py-2 btn-secondary font-bold rounded-lg text-sm">‹ Prev</a>
+            {% endif %}
+
+            <div class="flex gap-2">
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span class="px-4 py-2 bg-[#54C4C7] text-white rounded-lg font-bold shadow-lg text-sm">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="px-4 py-2 btn-secondary hover:bg-[#54C4C7] hover:text-white rounded-lg font-bold transition-all text-sm">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="px-4 py-2 btn-secondary font-bold rounded-lg text-sm">Next ›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="px-4 py-2 btn-secondary font-bold rounded-lg text-sm">Last »</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Beautiful Empty State -->
+        <div class="text-center py-16">
+            <div class="max-w-2xl mx-auto">
+                <div class="mb-6 inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-[#54C4C7] to-[#2d8f92] shadow-xl">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                    {% if request.GET.search or request.GET.category %}
+                        No Posts Found
+                    {% else %}
+                        Ready to Start Writing?
+                    {% endif %}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 mb-6">
+                    {% if request.GET.search or request.GET.category %}
+                        We couldn't find any posts matching your criteria. Try different filters or search terms.
+                    {% else %}
+                        This blog is ready for amazing content. Start creating your first post today!
+                    {% endif %}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                    {% if request.GET.search or request.GET.category %}
+                        <a href="{% url 'blog:post-list' %}" class="btn-primary px-6 py-3 text-base font-bold rounded-xl shadow-lg">
+                            View All Posts
+                        </a>
+                    {% else %}
+                        {% if user.is_staff %}
+                            <a href="{% url 'blog:admin-post-create' %}" class="btn-primary px-6 py-3 text-base font-bold rounded-xl shadow-lg flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Create Your First Post
+                            </a>
+                            <a href="{% url 'blog:admin-dashboard' %}" class="px-6 py-3 text-base font-bold border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all">
+                                Go to Dashboard
+                            </a>
+                        {% else %}
+                            <a href="{% url 'accounts:register' %}" class="btn-primary px-6 py-3 text-base font-bold rounded-xl shadow-lg">
+                                Join Our Community
+                            </a>
+                            <a href="{% url 'accounts:login' %}" class="px-6 py-3 text-base font-bold border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all">
+                                Sign In
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Filters and Sorting -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="mb-12">
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                        Find Your Perfect Read
+                    </h3>
+                    <p class="text-sm md:text-base text-gray-600">Filter by category or search for specific topics</p>
+                </div>
+                
+                <form method="get" class="space-y-5" id="filter-form">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Category Filter -->
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 text-xs font-bold text-gray-700 uppercase tracking-wide">
+                                <svg class="w-4 h-4 text-[#54C4C7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                                Category
+                            </label>
+                            <select name="category" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#54C4C7] focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white text-sm font-medium">
+                                <option value="">All Categories</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}" {% if request.GET.category|stringformat:'s' == category.id|stringformat:'s' %}selected{% endif %}>
+                                    {{ category.name }} ({{ category.post_count }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Search Filter -->
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 text-xs font-bold text-gray-700 uppercase tracking-wide">
+                                <svg class="w-4 h-4 text-[#54C4C7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Search
+                            </label>
+                            <input type="text" name="search" placeholder="Search articles..." value="{{ request.GET.search }}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#54C4C7] focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3 pt-2">
+                        <button type="submit" class="flex-1 btn-primary px-6 py-3 text-base font-bold shadow-lg hover:shadow-xl rounded-xl flex items-center justify-center gap-2 group">
+                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span>Search Posts</span>
+                        </button>
+                        {% if request.GET.category or request.GET.search %}
+                        <a href="{% url 'blog:post-list' %}" class="px-6 py-3 text-base font-bold border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Clear
+                        </a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="mb-12">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
+                    {% if request.GET.search %}
+                        Search Results
+                    {% elif request.GET.category %}
+                        Category Posts
+                    {% else %}
+                        Latest Articles
+                    {% endif %}
+                </h2>
+                <p class="text-sm md:text-base text-gray-600">
+                    {% if total_posts > 0 %}
+                        Showing {{ posts|length }} of {{ total_posts }} post{{ total_posts|pluralize }}
+                    {% else %}
+                        Start your journey here
+                    {% endif %}
+                </p>
+            </div>
+            {% if user.is_staff %}
+            <a href="{% url 'blog:admin-post-create' %}" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-[#54C4C7] text-white rounded-xl hover:bg-[#2d8f92] font-bold transition-all text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                New Post
+            </a>
+            {% endif %}
+        </div>
+        
+        {% if posts %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-10">
+            {% for post in posts %}
+            <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 group flex flex-col">
+                <div class="relative overflow-hidden h-48">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-[#54C4C7] via-[#3da8ab] to-[#2d8f92] relative flex items-center justify-center">
+                            <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                            <svg class="w-16 h-16 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                    {% endif %}
+                    <div class="absolute top-3 right-3">
+                        <span class="badge badge-primary backdrop-blur-sm bg-white/95 px-2.5 py-1 text-xs font-bold shadow-lg">
+                            {{ post.category.name }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <div class="flex gap-2 mb-3 flex-wrap items-center">
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {{ post.reading_time }} min read
+                        </span>
+                        <span class="text-xs text-gray-400">•</span>
+                        <span class="text-xs text-gray-500">{{ post.published_at|date:"M d, Y" }}</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2 group-hover:text-[#54C4C7] transition-colors leading-tight">
+                        <a href="{{ post.get_absolute_url }}" class="hover:underline">{{ post.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">{{ post.excerpt|default:"Discover more by reading this article..." }}</p>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
+                        <div class="flex items-center gap-3 text-xs text-gray-500">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                {{ post.views_count }}
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                                </svg>
+                                {{ post.comment_count }}
+                            </span>
+                        </div>
+                        <a href="{{ post.get_absolute_url }}" class="text-[#54C4C7] font-bold hover:text-[#2d8f92] flex items-center gap-1 group-hover:gap-2 transition-all text-sm">
+                            Read
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold mb-8 text-gray-900">✍️ Create New Post</h1>
+
+    <form method="post" enctype="multipart/form-data" class="bg-white rounded-xl shadow-lg p-8 card space-y-6">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Title -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}<span class="text-red-600 text-sm">{{ form.title.errors.0 }}</span>{% endif %}
+        </div>
+
+        <!-- Excerpt -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Excerpt (Summary)</label>
+            {{ form.excerpt }}
+            {% if form.excerpt.errors %}<span class="text-red-600 text-sm">{{ form.excerpt.errors.0 }}</span>{% endif %}
+        </div>
+
+        <!-- Content -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Content</label>
+            {{ form.content }}
+            {% if form.content.errors %}<span class="text-red-600 text-sm">{{ form.content.errors.0 }}</span>{% endif %}
+        </div>
+
+        <!-- Featured Image -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Featured Image</label>
+            {{ form.featured_image }}
+            {% if form.featured_image.errors %}<span class="text-red-600 text-sm">{{ form.featured_image.errors.0 }}</span>{% endif %}
+        </div>
+
+        <!-- Category -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+            {{ form.category }}
+            {% if form.category.errors %}<span class="text-red-600 text-sm">{{ form.category.errors.0 }}</span>{% endif %}
+        </div>
+
+        <!-- Status & Featured -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                {{ form.status }}
+                {% if form.status.errors %}<span class="text-red-600 text-sm">{{ form.status.errors.0 }}</span>{% endif %}
+            </div>
+            <div>
+                <label class="flex items-center text-sm font-semibold text-gray-700 mt-8">
+                    {{ form.featured }}
+                    <span class="ml-2">Feature this post (appears in featured section)</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="flex gap-4 pt-6 border-t border-gray-200">
+            <button type="submit" class="btn-primary">
+                ✅ Publish Post
+            </button>
+            <a href="{% url 'blog:admin-post-list' %}" class="btn-secondary">
+                ← Back
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+// Auto-update slug from title
+document.querySelector('input[name="title"]')?.addEventListener('input', function(e) {
+    const slug = e.target.value
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    // You can auto-fill slug here if needed
+});
+</script>
+{% endblock %}

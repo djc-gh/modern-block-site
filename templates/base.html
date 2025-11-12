@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}A modern blog platform with Tailwind CSS{% endblock %}">
+    <meta name="keywords" content="blog, posts, articles, modern">
+    <title>{% block title %}Modern Blog{% endblock %} | ModernBlog</title>
+    
+    <!-- Tailwind CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern-enhancements.css' %}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Additional styles -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #efeadd;
+            color: #333;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom colors */
+        :root {
+            --primary: #54C4C7;
+            --primary-dark: #2d8f92;
+            --bg-light: #efeadd;
+            --gray-light: #f9f9f7;
+            --gray-medium: #d4d0c8;
+            --gray-dark: #4a4a4a;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(84, 196, 199, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(84, 196, 199, 0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #54C4C7;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2d8f92;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(84, 196, 199, 0.2);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-secondary {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            color: #54C4C7;
+            border: 2px solid #54C4C7;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #efeadd;
+            transform: translateY(-2px);
+        }
+        
+        /* Card styles */
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        /* Input styles */
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            ring: 2px solid #54C4C7;
+            border-color: transparent;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #efeadd;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #54C4C7;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2d8f92;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    {% include 'partials/navbar.html' %}
+    
+    <!-- Messages / Toast Notifications -->
+    {% if messages %}
+    <div class="fixed top-6 right-6 z-50 space-y-3">
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+            <div class="mb-4 p-4 rounded-lg animate-fade-in-up bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 shadow-lg flex items-start gap-3">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div class="flex-1">
+                    <p class="font-semibold text-green-800">{{ message }}</p>
+                </div>
+                <button onclick="this.parentElement.style.display='none';" class="text-green-600 hover:text-green-800 font-bold text-xl">×</button>
+            </div>
+            {% elif message.tags == 'error' %}
+            <div class="mb-4 p-4 rounded-lg animate-fade-in-up bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 shadow-lg flex items-start gap-3">
+                <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <div class="flex-1">
+                    <p class="font-semibold text-red-800">{{ message }}</p>
+                </div>
+                <button onclick="this.parentElement.style.display='none';" class="text-red-600 hover:text-red-800 font-bold text-xl">×</button>
+            </div>
+            {% elif message.tags == 'warning' %}
+            <div class="mb-4 p-4 rounded-lg animate-fade-in-up bg-gradient-to-r from-yellow-50 to-amber-50 border-l-4 border-yellow-500 shadow-lg flex items-start gap-3">
+                <svg class="w-6 h-6 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <div class="flex-1">
+                    <p class="font-semibold text-yellow-800">{{ message }}</p>
+                </div>
+                <button onclick="this.parentElement.style.display='none';" class="text-yellow-600 hover:text-yellow-800 font-bold text-xl">×</button>
+            </div>
+            {% else %}
+            <div class="mb-4 p-4 rounded-lg animate-fade-in-up bg-gradient-to-r from-blue-50 to-cyan-50 border-l-4 border-blue-500 shadow-lg flex items-start gap-3">
+                <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2z" clip-rule="evenodd"/>
+                </svg>
+                <div class="flex-1">
+                    <p class="font-semibold text-blue-800">{{ message }}</p>
+                </div>
+                <button onclick="this.parentElement.style.display='none';" class="text-blue-600 hover:text-blue-800 font-bold text-xl">×</button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+    
+    <!-- JavaScript -->
+    <script>
+        // Message auto-hide and close functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('[class*="animate-fade-in-up"]');
+            messages.forEach((msg, index) => {
+                // Auto-hide success and info messages after 5 seconds
+                if (msg.querySelector('[class*="border-green"], [class*="border-blue"], [class*="border-yellow"]')) {
+                    setTimeout(() => {
+                        msg.style.opacity = '0';
+                        msg.style.transform = 'translateY(-20px)';
+                        msg.style.transition = 'all 0.3s ease-out';
+                        setTimeout(() => {
+                            msg.style.display = 'none';
+                        }, 300);
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
