@@ -352,7 +352,7 @@ Contributions are welcome! Please feel free to:
 
 For issues, questions, or suggestions:
 - Create an issue on GitHub
-- Email: support@modernblog.com
+- Email: danieljoshuachentiwuni1@gmail.com
 
 ## 🎉 Features Roadmap
 
@@ -377,8 +377,3 @@ For issues, questions, or suggestions:
 - **Models**: 5
 - **Views**: 15+
 
----
-
-**Happy Blogging! 🚀**
-
-Made with ❤️ using Django & Tailwind CSS
