@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: modern-block-site
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input
+    startCommand: gunicorn your_project_name.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true
